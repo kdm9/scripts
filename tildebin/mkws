@@ -1,0 +1,18 @@
+#!/bin/bash
+
+reponame=$1
+username=$(grep username ~/.mkwsrc| cut -f 2)
+password=$(grep password ~/.mkwsrc| cut -f 2)
+wsdir=$(grep wsdir ~/.mkwsrc| cut -f 2)
+
+cd ${wsdir}/
+if [ -d $reponame ]; then echo "ws $reponame already exists"; exit; fi
+bb create --username $username --password $password --private --scm git --protocol ssh $reponame
+mkdir $reponame
+cd $reponame
+git init
+cp ${wsdir}/.gitignore ./
+git add .gitignore
+git commit -m "Initial commit for ws $reponame"
+git remote add origin git@bitbucket.com:${username}/${reponame}.git
+git push -u --all origin
