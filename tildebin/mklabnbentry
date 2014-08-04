@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if [ $# -ne 1 ]
+then
+	echo "Usage: mklabnbentry <entry_name>"
+	exit 1
+fi
+
+base=~/.labnotebook
+subfolder="$(date +%y/%m/%d/$1)"
+folder="$base/$subfolder"
+mkdir -p $folder && cd $folder
